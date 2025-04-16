@@ -29,8 +29,8 @@ CREATE TABLE compra (
     idJogo INT NOT NULL, 
     data_compra DATE NOT NULL, 
     status ENUM('pendente', 'pago', 'cancelado') NOT NULL, 
-    FOREIGN KEY (idCliente) REFERENCES Cliente(idCliente), 
-    FOREIGN KEY (idJogo) REFERENCES Jogo(idJogo) 
+    FOREIGN KEY (idCliente) REFERENCES cliente(idCliente), 
+    FOREIGN KEY (idJogo) REFERENCES jogo(idJogo) 
 ); 
 
 # |===========|
@@ -70,17 +70,28 @@ WHERE idJogo = 3;
 # |===========|
 # |Exercício 6|
 # |===========|
-INSERT INTO jogo VALUES 
-(NULL,2,2,199.99,"Game Studio X");
+INSERT INTO compra (idCliente, idJogo, data_compra, status)
+VALUES (2, 2,"2024-10-20","pendente");
 
+# |===========|
+# |Exercício 7|
+# |===========|
+INSERT INTO compra VALUES
+(NULL,3,1,"2024-10-23","pendente");
 
+# |===========|
+# |Exercício 8|
+# |===========|
+UPDATE compra SET status = "cancelado"
+WHERE idCompra = 2;
 
+# |===========|
+# |Exercício 9|
+# |===========|
+UPDATE compra SET status = "pago"
+WHERE idCompra = 1;
 
-
-
-
-
-
-DELETE FROM carro WHERE placa = "HUY0989";
-
-DROP DATABASE LojaCarros;
+# |===========|
+# |Exercício 10|
+# |===========|
+DELETE FROM cliente WHERE idCliente = 4;
