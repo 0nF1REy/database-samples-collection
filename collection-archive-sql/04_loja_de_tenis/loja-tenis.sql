@@ -81,88 +81,150 @@ SELECT * FROM Tenis;
 -- |===========|
 
 -- Primeiro jeito
-SELECT modelo, preco FROM tenis WHERE idMarca = 1;
+SELECT modelo, preco FROM Tenis WHERE idMarca = 1;
 
 -- Segundo jeito
-SELECT modelo, preco FROM tenis WHERE idMarca = 
+SELECT modelo, preco FROM Tenis WHERE idMarca = 
 (SELECT idMarca FROM MarcaTenis WHERE nomeMarca = "Nike");
 
 -- |===========|
 -- |Exercício 5| MOSTRAR OS CAMPOS “MODELO”, “PRECO” E “TAMANHO” DOS TÊNIS DA MARCA REEBOK
 -- |===========|
 
-SELECT modelo, preco, tamanho FROM tenis WHERE idMarca = 4;
+SELECT modelo, preco, tamanho FROM Tenis WHERE idMarca = 4;
 
 -- |===========|
 -- |Exercício 6| MOSTRAR OS CAMPOS “MODELO” E” PRECO” DOS TÊNIS ACIMA DE 150 REAIS. 
 -- |===========|
 
-SELECT modelo, preco FROM tenis WHERE preco >= 150.0;
+SELECT modelo, preco FROM Tenis WHERE preco >= 150.0;
 
 -- |===========|
 -- |Exercício 7| MOSTRAR OS CAMPOS “MODELO” E “TAMANHO” DOS TÊNIS ORDENANDO DE FORMA CRESCENTE POR TAMANHO. 
 -- |===========|
 
-SELECT modelo, tamanho FROM tenis ORDER BY tamanho ASC;
+SELECT modelo, tamanho FROM Tenis ORDER BY tamanho ASC;
 
 -- |===========|
--- |Exercício x| 
+-- |Exercício 8| MOSTRAR OS CAMPOS “MODELO” E “PRECO” DOS TÊNIS QUE ESTEJAM ENTRE 100 E 200 REAIS. 
+-- |===========|
+SELECT modelo, preco FROM Tenis WHERE preco BETWEEN 100 AND 200;
+
+-- |===========|
+-- |Exercício 9| MOSTRAR TODOS OS CAMPOS DOS TÊNIS COM TAMANHO ENTRE 35 E 40. 
+-- |===========|
+SELECT * FROM Tenis WHERE tamanho BETWEEN 35 AND 40;
+
+-- |===========|
+-- |Exercício 10| MOSTRAR OS CAMPOS “MODELO”, “PRECO” E “TAMANHO” DOS TÊNIS QUE TENHAM A PALAVRA 'CLASSIC' NO SEU NOME DO MODELO
+-- |===========|
+SELECT modelo,preco,tamanho FROM Tenis WHERE modelo LIKE "%Classic%";
+
+-- |===========|
+-- |Exercício 11| MOSTRE A SOMA DOS PREÇOS DE TODOS OS TÊNIS.
+-- |===========|
+SELECT SUM(preco) AS soma_total FROM Tenis;
+
+-- |===========|
+-- |Exercício 12| MOSTRE A SOMA DOS PREÇOS DOS TÊNIS DA MARCA ADIDAS. 
+-- |===========|
+SELECT SUM(preco) AS soma_total_adidas FROM Tenis WHERE idMarca = 2;
+
+-- |===========|
+-- |Exercício 13| MOSTRE A QUANTIDADE DE TÊNIS DE CADA MARCA. 
+-- |===========|
+
+-- Primeiro jeito
+SELECT idMarca, COUNT(idTenis) AS quantidade
+FROM Tenis
+GROUP BY idMarca;
+
+-- Segundo jeito
+SELECT M.nomeMarca, COUNT(T.idTenis) AS quantidade
+FROM Tenis T
+JOIN MarcaTenis M ON T.idMarca = M.idMarca
+GROUP BY M.nomeMarca;
+
+-- Terceiro jeito
+SELECT MarcaTenis.nomeMarca, COUNT(Tenis.idTenis) AS quantidade
+FROM Tenis
+JOIN MarcaTenis ON Tenis.idMarca = MarcaTenis.idMarca
+GROUP BY MarcaTenis.nomeMarca;
+
+
+-- |===========|
+-- |Exercício 14| MOSTRE A QUANTIDADE DE TÊNIS DE CADA CATEGORIA.
+-- |===========|
+
+-- Primeiro jeito
+SELECT idCategoria, COUNT(idTenis) AS qtnd_cada_categoria
+FROM Tenis
+GROUP BY idCategoria;
+
+-- Segundo jeito
+SELECT C.nomeCategoria, COUNT(T.idTenis) AS qtnd_cada_categoria
+FROM Tenis T
+JOIN CategoriaTenis C ON T.idCategoria = C.idCategoria
+GROUP BY C.nomeCategoria;
+
+-- Terceiro jeito
+SELECT CategoriaTenis.nomeCategoria, COUNT(Tenis.idTenis) AS qtnd_cada_categoria
+FROM Tenis
+JOIN CategoriaTenis ON Tenis.idCategoria = CategoriaTenis.idCategoria
+GROUP BY CategoriaTenis.nomeCategoria;
+
+
+-- |===========|
+-- |Exercício 15| MOSTRE A QUANTIDADE DE TÊNIS DE CADA TAMANHO. 
+-- |===========|
+SELECT tamanho, COUNT(idTenis) AS qtnd_cada_tamanho
+FROM Tenis
+GROUP BY tamanho;
+
+-- |===========|
+-- |Exercício 16| MOSTRE A QUANTIDADE DE TÊNIS POR MARCA, MAS MOSTRE O NOME DA MARCA.
 -- |===========|
 
 -- |===========|
--- |Exercício x| 
+-- |Exercício 17| MOSTRAR TODOS OS TÊNIS ORDENADOS PELO PREÇO EM ORDEM DECRESCENTE.
 -- |===========|
 
 -- |===========|
--- |Exercício x| 
+-- |Exercício 18| AGRUPAR OS TÊNIS POR CATEGORIA E MOSTRAR A QUANTIDADE DE TÊNIS EM CADA CATEGORIA.
 -- |===========|
 
 -- |===========|
--- |Exercício x| 
+-- |Exercício 19| MOSTRAR O NÚMERO TOTAL DE TÊNIS CADASTRADOS. 
 -- |===========|
 
 -- |===========|
--- |Exercício x| 
+-- |Exercício 20| CALCULAR O VALOR TOTAL DOS TÊNIS DISPONÍVEIS. 
 -- |===========|
 
 -- |===========|
--- |Exercício x| 
+-- |Exercício 21| MOSTRAR O TÊNIS COM O MAIOR PREÇO. 
 -- |===========|
 
 -- |===========|
--- |Exercício x| 
+-- |Exercício 22| MOSTRAR O TÊNIS COM O MENOR PREÇO.
 -- |===========|
 
 -- |===========|
--- |Exercício x| 
+-- |Exercício 23| MOSTRAR CATEGORIAS COM MAIS DE 2 TÊNIS CADASTRADOS.
 -- |===========|
 
 -- |===========|
--- |Exercício x| 
+-- |Exercício 24| MOSTRAR TODAS AS CORES DE TÊNIS DISPONÍVEIS (SEM REPETIÇÕES).
 -- |===========|
 
 -- |===========|
--- |Exercício x| 
+-- |Exercício 25| MOSTRAR OS 3 PRIMEIROS TÊNIS CADASTRADOS.
 -- |===========|
 
 -- |===========|
--- |Exercício x| 
+-- |Exercício 26| MOSTRAR OS TÊNIS A PARTIR DO 4º REGISTRO.
 -- |===========|
 
 -- |===========|
--- |Exercício x| 
+-- |Exercício 27| MOSTRAR OS TÊNIS QUE SÃO DA CATEGORIA 'CASUAL' OU 'SKATE'. 
 -- |===========|
-
--- |===========|
--- |Exercício x| 
--- |===========|
-
--- |===========|
--- |Exercício x| 
--- |===========|
-
--- |===========|
--- |Exercício x| 
--- |===========|
-
-# https://anotepad.com/notes/9td4a3ew
