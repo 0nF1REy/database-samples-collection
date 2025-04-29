@@ -120,39 +120,24 @@ SELECT * FROM Tenis WHERE tamanho BETWEEN 35 AND 40;
 -- |===========|
 SELECT modelo,preco,tamanho FROM Tenis WHERE modelo LIKE "%Classic%";
 
--- |===========|
+-- |============|
 -- |Exercício 11| MOSTRE A SOMA DOS PREÇOS DE TODOS OS TÊNIS.
 -- |===========|
 SELECT SUM(preco) AS soma_total FROM Tenis;
 
--- |===========|
+-- |============|
 -- |Exercício 12| MOSTRE A SOMA DOS PREÇOS DOS TÊNIS DA MARCA ADIDAS. 
 -- |===========|
 SELECT SUM(preco) AS soma_total_adidas FROM Tenis WHERE idMarca = 2;
 
--- |===========|
+-- |============|
 -- |Exercício 13| MOSTRE A QUANTIDADE DE TÊNIS DE CADA MARCA. 
 -- |===========|
-
--- Primeiro jeito
 SELECT idMarca, COUNT(idTenis) AS quantidade
 FROM Tenis
 GROUP BY idMarca;
 
--- Segundo jeito
-SELECT M.nomeMarca, COUNT(T.idTenis) AS quantidade
-FROM Tenis T
-JOIN MarcaTenis M ON T.idMarca = M.idMarca
-GROUP BY M.nomeMarca;
-
--- Terceiro jeito
-SELECT MarcaTenis.nomeMarca, COUNT(Tenis.idTenis) AS quantidade
-FROM Tenis
-JOIN MarcaTenis ON Tenis.idMarca = MarcaTenis.idMarca
-GROUP BY MarcaTenis.nomeMarca;
-
-
--- |===========|
+-- |============|
 -- |Exercício 14| MOSTRE A QUANTIDADE DE TÊNIS DE CADA CATEGORIA.
 -- |===========|
 
@@ -174,57 +159,147 @@ JOIN CategoriaTenis ON Tenis.idCategoria = CategoriaTenis.idCategoria
 GROUP BY CategoriaTenis.nomeCategoria;
 
 
--- |===========|
+-- |============|
 -- |Exercício 15| MOSTRE A QUANTIDADE DE TÊNIS DE CADA TAMANHO. 
 -- |===========|
 SELECT tamanho, COUNT(idTenis) AS qtnd_cada_tamanho
 FROM Tenis
 GROUP BY tamanho;
 
--- |===========|
+-- |============|
 -- |Exercício 16| MOSTRE A QUANTIDADE DE TÊNIS POR MARCA, MAS MOSTRE O NOME DA MARCA.
 -- |===========|
 
--- |===========|
+-- Primeiro jeito
+SELECT M.nomeMarca, COUNT(T.idTenis) AS qtnd_cada_marca
+FROM Tenis T
+JOIN MarcaTenis M ON T.idMarca = M.idMarca
+GROUP BY M.nomeMarca;
+
+-- Segundo jeito
+SELECT MarcaTenis.nomeMarca, COUNT(Tenis.idTenis) AS qtnd_cada_marca
+FROM Tenis
+JOIN MarcaTenis ON Tenis.idMarca = MarcaTenis.idMarca
+GROUP BY MarcaTenis.nomeMarca;
+
+-- |============|
 -- |Exercício 17| MOSTRAR TODOS OS TÊNIS ORDENADOS PELO PREÇO EM ORDEM DECRESCENTE.
 -- |===========|
+SELECT idTenis FROM Tenis ORDER BY preco DESC;
 
--- |===========|
+-- |============|
 -- |Exercício 18| AGRUPAR OS TÊNIS POR CATEGORIA E MOSTRAR A QUANTIDADE DE TÊNIS EM CADA CATEGORIA.
 -- |===========|
 
--- |===========|
+-- Primeiro jeito
+SELECT C.nomeCategoria, COUNT(T.idTenis) AS qtnd_cada_categoria
+FROM Tenis T
+JOIN CategoriaTenis C ON T.idCategoria = C.idCategoria
+GROUP BY C.nomeCategoria;
+
+-- Segundo jeito
+SELECT CategoriaTenis.nomeCategoria, COUNT(Tenis.idTenis) AS qtnd_cada_marca
+FROM Tenis
+JOIN CategoriaTenis ON Tenis.idCategoria = CategoriaTenis.idCategoria
+GROUP BY CategoriaTenis.nomeCategoria;
+
+-- |============|
 -- |Exercício 19| MOSTRAR O NÚMERO TOTAL DE TÊNIS CADASTRADOS. 
 -- |===========|
 
--- |===========|
+-- Primeiro jeito
+SELECT COUNT(idTenis) AS total_tenis_cadastrados FROM Tenis;
+
+-- Segundo jeito
+SELECT COUNT(*) AS total_tenis_cadastrados FROM Tenis;
+
+-- Terceiro jeito
+SELECT COUNT(1) AS total_tenis_cadastrados FROM Tenis;
+
+-- Quarta jeito
+SELECT COUNT(idTenis) AS total_tenis_cadastrados 
+FROM Tenis
+HAVING COUNT(idTenis) > 0;
+
+
+-- |============|
 -- |Exercício 20| CALCULAR O VALOR TOTAL DOS TÊNIS DISPONÍVEIS. 
 -- |===========|
 
--- |===========|
+-- Primeiro jeito
+SELECT SUM(preco) AS valor_total_tenis FROM Tenis;
+
+-- Segundo jeito
+SELECT (SELECT SUM(preco) FROM Tenis) AS valor_total_tenis;
+
+-- |============|
 -- |Exercício 21| MOSTRAR O TÊNIS COM O MAIOR PREÇO. 
 -- |===========|
 
--- |===========|
+-- Primeiro jeito
+SELECT modelo, preco 
+FROM Tenis 
+WHERE preco = (SELECT MAX(preco) FROM Tenis);
+
+-- Segundo jeito
+SELECT modelo, preco 
+FROM Tenis 
+ORDER BY preco DESC 
+LIMIT 1;
+
+-- |============|
 -- |Exercício 22| MOSTRAR O TÊNIS COM O MENOR PREÇO.
 -- |===========|
 
--- |===========|
+-- Primeiro jeito
+SELECT modelo, preco 
+FROM Tenis 
+WHERE preco = (SELECT MIN(preco) FROM Tenis);
+
+-- Segundo jeito
+SELECT modelo, preco 
+FROM Tenis 
+ORDER BY preco ASC 
+LIMIT 1;
+
+-- |============|
 -- |Exercício 23| MOSTRAR CATEGORIAS COM MAIS DE 2 TÊNIS CADASTRADOS.
 -- |===========|
+SELECT idCategoria, COUNT(idTenis) AS qntd_tenis
+FROM Tenis
+GROUP BY idCategoria
+HAVING COUNT(idTenis) > 2;
 
--- |===========|
+-- |============|
 -- |Exercício 24| MOSTRAR TODAS AS CORES DE TÊNIS DISPONÍVEIS (SEM REPETIÇÕES).
 -- |===========|
 
--- |===========|
+-- Primeiro jeito
+SELECT DISTINCT cor FROM Tenis;
+
+-- Segundo jeito
+SELECT cor
+FROM Tenis
+GROUP BY cor;
+
+-- |============|
 -- |Exercício 25| MOSTRAR OS 3 PRIMEIROS TÊNIS CADASTRADOS.
 -- |===========|
+SELECT DISTINCT idTenis,modelo FROM Tenis LIMIT 3;
 
--- |===========|
+-- |============|
 -- |Exercício 26| MOSTRAR OS TÊNIS A PARTIR DO 4º REGISTRO.
 -- |===========|
+SELECT DISTINCT idTenis,modelo FROM Tenis WHERE idTenis >= 4;
 
--- |===========|
+-- |============|
 -- |Exercício 27| MOSTRAR OS TÊNIS QUE SÃO DA CATEGORIA 'CASUAL' OU 'SKATE'. 
 -- |===========|
+SELECT idTenis,modelo
+FROM Tenis 
+WHERE idCategoria IN (SELECT idCategoria FROM CategoriaTenis WHERE nomeCategoria IN ('Casual', 'Skate'));
+
+# |============|
+# |Exercício 28| 
+# |===========|
+DROP DATABASE LojaTenis;
