@@ -1,0 +1,4 @@
+.env.sh
+.env
+
+collection-archive-sql/05_shinsengumi/backup/*.sql
