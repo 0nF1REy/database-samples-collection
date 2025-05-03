@@ -1,4 +1,4 @@
 .env.sh
 .env
 
-collection-archive-sql/05_shinsengumi/backup/*.sql
+collection-archive-sql/06_shinsengumi/backup/*.sql

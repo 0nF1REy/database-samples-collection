@@ -10,7 +10,7 @@ VALUES
 ('Hijikata Toushirou', 'Vice-Capitão', 'Kenjutsu e Tática'),
 ('Okita Sougo', 'Tenente', 'Espada e Explosivos'),
 ('Yamazaki Sagaru', 'Soldado', 'Vigilância e Stealth'),
-('Saitou Shimaru', 'Tenente', 'Iaijutsu'),  -- ele sempre dorme
+('Saitou Shimaru', 'Tenente', 'Iaijutsu'),
 ('Ito Kamotarou', 'Tenente', 'Política e Manipulação'),
 ('Inoue Genzaburou', 'Soldado', 'Defesa e Tática'),
 ('Harada Sanosuke', 'Soldado', 'Lança'),
@@ -76,8 +76,9 @@ SELECT * FROM Arsenal;
 
 -- 💡 Membro x Arma
 INSERT INTO MembroArma (idMembro, idArma, dataUso)
-VALUES (3, 2, '2025-05-02'),
-VALUES (2, 3, '2025-05-02');
+VALUES 
+(3, 2, '2025-05-02'),
+(2, 3, '2025-05-03');
 
 SELECT * FROM MembroArma;
 
