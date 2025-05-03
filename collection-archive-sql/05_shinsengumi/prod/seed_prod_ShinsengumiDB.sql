@@ -1,14 +1,4 @@
--- *******************************************************
--- Script: seed_prod_ShinsengumiDB.sql
--- Descrição: Este script insere dados iniciais no banco de dados
--- 'prod_ShinsengumiDB'. Ele popula as tabelas com dados de exemplo.
--- *******************************************************
-
 USE prod_ShinsengumiDB;
-
--- INSERTs =============================================================
-
--- 👮‍♂️ Membros
 
 INSERT INTO Membro (nome, patente, estiloCombate)
 VALUES
@@ -16,7 +6,7 @@ VALUES
 ('Hijikata Toushirou', 'Vice-Capitão', 'Kenjutsu e Tática'),
 ('Okita Sougo', 'Tenente', 'Espada e Explosivos'),
 ('Yamazaki Sagaru', 'Soldado', 'Vigilância e Stealth'),
-('Saitou Shimaru', 'Tenente', 'Iaijutsu'),  -- ele sempre dorme
+('Saitou Shimaru', 'Tenente', 'Iaijutsu'), 
 ('Ito Kamotarou', 'Tenente', 'Política e Manipulação'),
 ('Inoue Genzaburou', 'Soldado', 'Defesa e Tática'),
 ('Harada Sanosuke', 'Soldado', 'Lança'),
@@ -28,7 +18,6 @@ VALUES
 
 SELECT * FROM Membro;
 
--- 💣 Arsenal
 INSERT INTO Arsenal (nome, tipo, restrita)
 VALUES
 ('Katana do Hijikata', 'Katana', FALSE),
@@ -47,7 +36,6 @@ VALUES
 
 SELECT * FROM Arsenal;
 
--- 🗂️ Missões
 INSERT INTO Missao (descricao, localizacao, tipo, nivelPerigo, status, dataInicio)
 VALUES
 ('Proteger o cargueiro Amanto em Kabukicho', 'Kabukicho', 'Proteção', 'Médio', 'Em Andamento', '2025-04-29'),
@@ -66,20 +54,15 @@ VALUES
 
 SELECT * FROM Missao;
 
--- 🔗 Membro x Missão
-
--- Kondou e Hijikata na proteção do cargueiro
 INSERT INTO MembroMissao (idMembro, idMissao, funcao)
 VALUES
 (1, 1, 'Líder'),
 (2, 1, 'Tático');
 
--- Okita liderando missão Joui (com explosivos, claro)
 INSERT INTO MembroMissao (idMembro, idMissao, funcao)
 VALUES
 (3, 2, 'Explosivos');
 
--- Hijikata investigando o roubo de maionese
 INSERT INTO MembroMissao (idMembro, idMissao, funcao)
 VALUES
 (2, 3, 'Investigador');
@@ -90,19 +73,13 @@ VALUES
 
 SELECT * FROM MembroMissao WHERE idMembro IN (1, 2, 3, 5);
 
--- 📄 Relatórios
-
 INSERT INTO RelatorioMissao (idMissao, resumo, sucesso, danosRelatados, autorRelatorio)
 VALUES
 (1, 'Missão em andamento. Amanto protegidos até o momento.', NULL, 'Nenhum ainda', 'Kondou Isao'),
 (3, 'Investigação inconclusiva. Frasco de maionese desaparecido.', FALSE, 'Um armário destruído por raiva.', 'Hijikata Toushirou');
 
--- 💡 Membros usando armas restritas.
-
--- Okita usando sua bazuca
 INSERT INTO MembroArma (idMembro, idArma, dataUso)
 VALUES (3, 2, '2025-05-02');
 
--- Hijikata usando a maionese tática 
 INSERT INTO MembroArma (idMembro, idArma, dataUso)
 VALUES (2, 3, '2025-05-02');

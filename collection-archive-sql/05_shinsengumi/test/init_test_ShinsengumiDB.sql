@@ -1,19 +1,6 @@
-# 🧾 Enunciado Geral
-# Você é responsável por desenvolver o banco de dados da tropa especial "Shinsengumi", que gerencia membros, missões, armamentos e relatórios operacionais.
-# Responda os desafios abaixo usando comandos SQL no MySQL Workbench ou terminal.
-
-# |==============================================================|
-# | 1. INSERT INTO tabela (colunas) VALUES (dados);              |
-# | 2. UPDATE tabela SET coluna = novo_dado WHERE coluna = valor;|
-# | 3. DELETE FROM tabela WHERE coluna = valor;                  |
-# | 4. SELECT * FROM tabela WHERE condicao;                      |
-# |==============================================================|
-
--- Criando o banco
 CREATE DATABASE IF NOT EXISTS test_ShinsengumiDB;
 USE test_ShinsengumiDB;
 
--- 👮‍♂️ Tabela: Membros da Shinsengumi
 CREATE TABLE Membro (
     idMembro INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(100) NOT NULL,
@@ -21,10 +8,8 @@ CREATE TABLE Membro (
     estiloCombate VARCHAR(100),
     ativo BOOLEAN DEFAULT TRUE,
     dataEntrada TIMESTAMP DEFAULT CURRENT_TIMESTAMP 
-    -- dataEntrada DATE DEFAULT CURRENT_DATE
 );
 
--- 🧾 Tabela: Missões da Shinsengumi
 CREATE TABLE Missao (
     idMissao INT PRIMARY KEY AUTO_INCREMENT,
     descricao TEXT NOT NULL,
@@ -36,7 +21,6 @@ CREATE TABLE Missao (
     dataConclusao DATE
 );
 
--- 🔗 Tabela: Relacionamento Membros e Missões (N:N)
 CREATE TABLE MembroMissao (
     idMembro INT,
     idMissao INT,
@@ -46,7 +30,6 @@ CREATE TABLE MembroMissao (
     PRIMARY KEY (idMembro, idMissao)
 );
 
--- 💣 Tabela: Arsenal
 CREATE TABLE Arsenal (
     idArma INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(100),
@@ -54,7 +37,6 @@ CREATE TABLE Arsenal (
     restrita BOOLEAN DEFAULT FALSE
 );
 
--- 🔗 Tabela: Membro e Armas (controle de uso)
 CREATE TABLE MembroArma (
     idMembro INT,
     idArma INT,
@@ -64,7 +46,6 @@ CREATE TABLE MembroArma (
     PRIMARY KEY (idMembro, idArma, dataUso)
 );
 
--- 🧮 Tabela: Relatórios de Missões
 CREATE TABLE RelatorioMissao (
     idRelatorio INT PRIMARY KEY AUTO_INCREMENT,
     idMissao INT,
@@ -74,10 +55,6 @@ CREATE TABLE RelatorioMissao (
     autorRelatorio VARCHAR(100),
     FOREIGN KEY (idMissao) REFERENCES Missao(idMissao)
 );
-
--- VIEWs =============================================================
-
--- 🧭 1. VIEW: Relatório de Missões em Andamento
 
 CREATE VIEW vw_missoes_em_andamento AS
 SELECT 
@@ -92,10 +69,7 @@ LEFT JOIN Membro mem ON mem.idMembro = mm.idMembro
 WHERE m.status = 'Em Andamento'
 GROUP BY m.idMissao;
 
--- 💡
 SELECT * FROM vw_missoes_em_andamento;
-
--- 🔐 2. VIEW: Armas Restritas e Quem Está Usando
 
 CREATE OR REPLACE VIEW vw_armas_restritas_em_uso AS
 SELECT 
@@ -109,10 +83,7 @@ JOIN MembroArma ma ON a.idArma = ma.idArma
 JOIN Membro me ON me.idMembro = ma.idMembro
 WHERE a.restrita = TRUE;
 
--- 💡
 SELECT * FROM vw_armas_restritas_em_uso;
-
--- 🔭 3. VIEW: Membros atualmente em missão
 
 CREATE OR REPLACE VIEW vw_membros_em_missao AS
 SELECT
@@ -129,12 +100,8 @@ INNER JOIN
 WHERE
     MI.status = 'Em Andamento';
 
--- 💡
 SELECT * FROM vw_membros_em_missao;
 
--- PROCEDUREs =============================================================
-
--- ⚙️ 1. PROCEDURE: Registrar Missão com Parâmetros Seguros
 DELIMITER $$
 
 CREATE PROCEDURE sp_registrar_missao (
@@ -159,10 +126,7 @@ CALL sp_registrar_missao(
     CURDATE()
 );
 
--- 💡
 SELECT * FROM Missao ORDER BY idMissao DESC;
-
--- ⚙️ 2. PROCEDURE: Promover um Membro
 
 DELIMITER $$
 
@@ -183,7 +147,6 @@ CALL sp_promover_membro(5, 'Tenente');
 -- 💡
 SELECT * FROM Membro WHERE idMembro = 5;
 
--- ⚙️ 3. PROCEDURE: Atribuir Arma a um Membro
 DELIMITER $$
 
 CREATE PROCEDURE sp_atribuir_arma (
@@ -202,12 +165,10 @@ END $$
 
 DELIMITER ;
 
-CALL sp_atribuir_arma(3, 2); -- Okita recebe a bazuca, se ainda não tiver
+CALL sp_atribuir_arma(3, 2); 
 
--- 💡
 SELECT * FROM MembroArma WHERE idMembro = 3;
 
--- 🪖 4. PROCEDURE: Designar Membro a Missão
 DELIMITER $$
 
 CREATE PROCEDURE sp_designar_missao (
@@ -234,31 +195,22 @@ CALL sp_designar_missao(5, 2, 'Sniper');
 -- 💡
 SELECT * FROM MembroMissao WHERE idMembro IN (5);
 
--- ❌ 5. PROCEDURE: Expulsar um Membro (Demissão)
-
 DELIMITER $$
 
 CREATE PROCEDURE sp_expulsar_membro (
     IN p_idMembro INT
 )
 BEGIN
-    -- Remove o vínculo com armas
     DELETE FROM MembroArma WHERE idMembro = p_idMembro;
 
-    -- Remove o vínculo com missões
     DELETE FROM MembroMissao WHERE idMembro = p_idMembro;
 
-    -- Remove o membro em si
     DELETE FROM Membro WHERE idMembro = p_idMembro;
 END $$
 
 DELIMITER ;
 
-CALL sp_expulsar_membro(5); -- Expulsa o membro com id 5
-
--- TRIGGERs =============================================================
-
--- ❌ 1. TRIGGER: Restrição de armas para o recruta
+CALL sp_expulsar_membro(5);
 
 DELIMITER $$
 
@@ -279,10 +231,6 @@ DELIMITER ;
 -- 💡
 INSERT INTO MembroArma (idMembro, idArma, dataUso)
 VALUES (13, 2, CURDATE());
-
--- VIEWs + PROCEDUREs =============================================================
-
--- 🔭 1. VIEW + PROCEDURE: Total de missões por membro
 
 CREATE VIEW vw_participacao_missoes AS
 SELECT 

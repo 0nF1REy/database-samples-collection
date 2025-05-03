@@ -1,8 +1,3 @@
--- *******************************************************
--- Script: alter_prod_ShinsengumiDB.sql
--- Descrição: Este script realiza várias alterações no banco de dados
--- 'dev_ShinsengumiDB','prod_ShinsengumiDB' e 'test_ShinsengumiDB'. 
--- *******************************************************
 USE dev_ShinsengumiDB;
 USE prod_ShinsengumiDB;
 USE test_ShinsengumiDB

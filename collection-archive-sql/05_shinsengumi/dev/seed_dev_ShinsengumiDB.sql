@@ -1,9 +1,3 @@
--- *******************************************************
--- Script: seed_prod_ShinsengumiDB.sql
--- Descrição: Este script insere dados iniciais no banco de dados
--- 'dev_ShinsengumiDB'. Ele popula as tabelas com dados de exemplo.
--- *******************************************************
-
 USE dev_ShinsengumiDB;
 
 -- INSERTs =============================================================
@@ -28,25 +22,6 @@ VALUES
 
 SELECT * FROM Membro;
 
--- 💣 Arsenal
-INSERT INTO Arsenal (nome, tipo, restrita)
-VALUES
-('Katana do Hijikata', 'Katana', FALSE),
-('Bazuca de Okita', 'Explosivo', TRUE),
-('Maionese Tática', 'Arma Especial', TRUE),
-('Binóculo da Vigilância', 'Arma Especial', FALSE),
-('Katana Comum', 'Katana', FALSE),
-('Espada de Treinamento de Shinpachi', 'Katana', FALSE),
-('Shamisen de Bansai', 'Arma Especial', TRUE),
-('Kit de Disfarce do Yamazaki', 'Arma Especial', FALSE),
-('Granada Fumacê do Okita', 'Explosivo', TRUE),
-('Pistola de Patrulha', 'Arma de Fogo', TRUE),
-('Katana Cerimonial', 'Katana', FALSE),
-('Maionese Reserva', 'Arma Especial', TRUE),
-('Revólver de Hasegawa', 'Arma de Fogo', FALSE);
-
-SELECT * FROM Arsenal;
-
 -- 🗂️ Missões
 INSERT INTO Missao (descricao, localizacao, tipo, nivelPerigo, status, dataInicio)
 VALUES
@@ -67,21 +42,11 @@ VALUES
 SELECT * FROM Missao;
 
 -- 🔗 Membro x Missão
-
--- Kondou e Hijikata na proteção do cargueiro
 INSERT INTO MembroMissao (idMembro, idMissao, funcao)
 VALUES
 (1, 1, 'Líder'),
-(2, 1, 'Tático');
-
--- Okita liderando missão Joui (com explosivos, claro)
-INSERT INTO MembroMissao (idMembro, idMissao, funcao)
-VALUES
-(3, 2, 'Explosivos');
-
--- Hijikata investigando o roubo de maionese
-INSERT INTO MembroMissao (idMembro, idMissao, funcao)
-VALUES
+(2, 1, 'Tático'),
+(3, 2, 'Explosivos'),
 (2, 3, 'Investigador');
 
 INSERT INTO MembroMissao (idMembro, idMissao)
@@ -90,19 +55,35 @@ VALUES
 
 SELECT * FROM MembroMissao WHERE idMembro IN (1, 2, 3, 5);
 
--- 📄 Relatórios
+-- 💣 Arsenal
+INSERT INTO Arsenal (nome, tipo, restrita)
+VALUES
+('Katana do Hijikata', 'Katana', FALSE),
+('Bazuca de Okita', 'Explosivo', TRUE),
+('Maionese Tática', 'Arma Especial', TRUE),
+('Binóculo da Vigilância', 'Arma Especial', FALSE),
+('Katana Comum', 'Katana', FALSE),
+('Espada de Treinamento de Shinpachi', 'Katana', FALSE),
+('Shamisen de Bansai', 'Arma Especial', TRUE),
+('Kit de Disfarce do Yamazaki', 'Arma Especial', FALSE),
+('Granada Fumacê do Okita', 'Explosivo', TRUE),
+('Pistola de Patrulha', 'Arma de Fogo', TRUE),
+('Katana Cerimonial', 'Katana', FALSE),
+('Maionese Reserva', 'Arma Especial', TRUE),
+('Revólver de Hasegawa', 'Arma de Fogo', FALSE);
 
+SELECT * FROM Arsenal;
+
+-- 💡 Membro x Arma
+INSERT INTO MembroArma (idMembro, idArma, dataUso)
+VALUES (3, 2, '2025-05-02'),
+VALUES (2, 3, '2025-05-02');
+
+SELECT * FROM MembroArma;
+
+-- 📄 Relatório x Missão
 INSERT INTO RelatorioMissao (idMissao, resumo, sucesso, danosRelatados, autorRelatorio)
 VALUES
 (1, 'Missão em andamento. Amanto protegidos até o momento.', NULL, 'Nenhum ainda', 'Kondou Isao'),
 (3, 'Investigação inconclusiva. Frasco de maionese desaparecido.', FALSE, 'Um armário destruído por raiva.', 'Hijikata Toushirou');
 
--- 💡 Membros usando armas restritas.
-
--- Okita usando sua bazuca
-INSERT INTO MembroArma (idMembro, idArma, dataUso)
-VALUES (3, 2, '2025-05-02');
-
--- Hijikata usando a maionese tática 
-INSERT INTO MembroArma (idMembro, idArma, dataUso)
-VALUES (2, 3, '2025-05-02');

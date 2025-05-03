@@ -1,13 +1,5 @@
 # 🧾 Enunciado Geral
 # Você é responsável por desenvolver o banco de dados da tropa especial "Shinsengumi", que gerencia membros, missões, armamentos e relatórios operacionais.
-# Responda os desafios abaixo usando comandos SQL no MySQL Workbench ou terminal.
-
-# |==============================================================|
-# | 1. INSERT INTO tabela (colunas) VALUES (dados);              |
-# | 2. UPDATE tabela SET coluna = novo_dado WHERE coluna = valor;|
-# | 3. DELETE FROM tabela WHERE coluna = valor;                  |
-# | 4. SELECT * FROM tabela WHERE condicao;                      |
-# |==============================================================|
 
 -- Criando o banco
 CREATE DATABASE IF NOT EXISTS dev_ShinsengumiDB;
