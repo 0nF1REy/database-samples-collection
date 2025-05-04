@@ -1,8 +1,5 @@
-USE dev_ShinsengumiDB;
+USE prod_ShinsengumiDB;
 
--- INSERTs =============================================================
-
--- 👮‍♂️ Membros
 INSERT INTO Membro (nome, patente, estiloCombate)
 VALUES
 ('Kondou Isao', 'Capitão', 'Jūjutsu'),
@@ -19,9 +16,6 @@ VALUES
 ('Kawakami Bansai', 'Soldado', 'Música e Espionagem'),
 ('Hasegawa Taizou', 'Recruta', 'Sobrevivência Urbana');
 
-SELECT * FROM Membro;
-
--- 🗂️ Missões
 INSERT INTO Missao (descricao, localizacao, tipo, nivelPerigo, status, dataInicio)
 VALUES
 ('Proteger o cargueiro Amanto em Kabukicho', 'Kabukicho', 'Proteção', 'Médio', 'Em Andamento', '2025-04-29'),
@@ -38,9 +32,6 @@ VALUES
 ('Infiltrar-se disfarçado em um concurso de beleza suspeito', 'Kabukicho', 'Infiltração', 'Alto', 'Aberta', '2025-05-11'),
 ('Realizar patrulha noturna com Okita sem causar explosões', 'Centro de Edo', 'Patrulha', 'Alto', 'Aberta', '2025-05-12');
 
-SELECT * FROM Missao;
-
--- 🔗 Membro x Missão
 INSERT INTO MembroMissao (idMembro, idMissao, funcao)
 VALUES
 (1, 1, 'Líder'),
@@ -52,9 +43,6 @@ INSERT INTO MembroMissao (idMembro, idMissao)
 VALUES
 (5, 2);
 
-SELECT * FROM MembroMissao WHERE idMembro IN (1, 2, 3, 5);
-
--- 💣 Arsenal
 INSERT INTO Arsenal (nome, tipo, restrita)
 VALUES
 ('Katana do Hijikata', 'Katana', FALSE),
@@ -71,17 +59,11 @@ VALUES
 ('Maionese Reserva', 'Arma Especial', TRUE),
 ('Revólver de Hasegawa', 'Arma de Fogo', FALSE);
 
-SELECT * FROM Arsenal;
-
--- 💡 Membro x Arma
 INSERT INTO MembroArma (idMembro, idArma, dataUso)
 VALUES 
 (3, 2, '2025-05-02'),
 (2, 3, '2025-05-03');
 
-SELECT * FROM MembroArma;
-
--- 📄 Relatório x Missão
 INSERT INTO RelatorioMissao (idMissao, resumo, sucesso, danosRelatados, autorRelatorio)
 VALUES
 (1, 'Missão em andamento. Amanto protegidos até o momento.', NULL, 'Nenhum ainda', 'Kondou Isao'),
