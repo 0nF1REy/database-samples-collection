@@ -190,5 +190,3 @@ ON a.idAluno = m.idAluno
 INNER JOIN curso c
 ON c.idCurso = m.idCurso
 WHERE m.dataMatricula BETWEEN '2025-03-01' AND '2025-03-31';
-
-https://abre.ai/mKS7
