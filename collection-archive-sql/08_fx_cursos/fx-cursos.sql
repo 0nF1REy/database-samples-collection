@@ -192,18 +192,16 @@ ON c.idCurso = m.idCurso
 WHERE m.dataMatricula BETWEEN '2025-03-01' AND '2025-03-31';
 
 -- |===========|
--- |Exercício 9| 
+-- |Exercício 9| Quais alunos não tem matrícula ativa
 -- |===========|
-# Quais alunos não tem matrícula ativa
 SELECT a.nomeAluno
 FROM aluno a
 LEFT JOIN matricula m ON a.idAluno = m.idAluno
 WHERE m.dataMatricula IS NULL;
 
 -- |===========|
--- |Exercício 10| 
+-- |Exercício 10| Quais os cursos que estão sem matriculas
 -- |===========|
-#Quais os cursos que estão sem matriculas
 SELECT c.nomeCurso
 FROM curso c
 LEFT JOIN matricula m ON c.idCurso = m.idCurso
