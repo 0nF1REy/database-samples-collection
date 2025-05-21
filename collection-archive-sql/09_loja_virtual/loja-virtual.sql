@@ -106,3 +106,102 @@ INSERT INTO Itens_Pedido (idPedido, idProduto, quantidade, preco_unitario) VALUE
 (7, 7, 2, 34.90),
 (7, 3, 1, 199.00),
 (9, 1, 1, 59.90);
+
+--
+
+/* COMANDOS DQL */
+
+-- |===========|
+-- |Exercício 1| Mostre todos os produtos comprados pela cliente 'Ana Silva'.
+-- |===========|
+SELECT Produto.*,pedido.* 
+FROM Produto 
+INNER JOIN Itens_Pedido ON Produto.idProduto = Itens_Pedido.idProduto 
+INNER JOIN Pedido ON Itens_Pedido.idPedido = Pedido.idPedido 
+WHERE Pedido.idCliente = (SELECT idCliente FROM Cliente WHERE nomeCliente = 'Ana Silva'); 
+
+-- |===========|
+-- |Exercício 2| Mostre todos os clientes que fizeram  
+-- |===========| pedidos de produtos da categoria 'Livros'.
+SELECT DISTINCT Cliente.* 
+FROM Cliente 
+INNER JOIN Pedido ON Cliente.idCliente = Pedido.idCliente 
+INNER JOIN Itens_Pedido ON Pedido.idPedido = Itens_Pedido.idPedido 
+INNER JOIN Produto ON Itens_Pedido.idProduto = Produto.idProduto 
+WHERE Produto.categoria = 'Livros'; 
+
+-- |===========|
+-- |Exercício 3| Mostre todos os clientes que fizeram pedidos
+-- |===========| de produtos com preço unitário superior a 500. 
+SELECT DISTINCT Cliente.* 
+FROM Cliente 
+INNER JOIN Pedido ON Cliente.idCliente = Pedido.idCliente 
+INNER JOIN Itens_Pedido ON Pedido.idPedido = Itens_Pedido.idPedido 
+INNER JOIN Produto ON Itens_Pedido.idProduto = Produto.idProduto 
+WHERE Produto.preco_unitario > 500; 
+
+-- |===========|
+-- |Exercício 4| Mostre todos os produtos comprados pelo cliente 'João Oliveira'.
+-- |===========| 
+SELECT Produto.* 
+FROM Produto 
+INNER JOIN Itens_Pedido ON Produto.idProduto = Itens_Pedido.idProduto 
+INNER JOIN Pedido ON Itens_Pedido.idPedido = Pedido.idPedido 
+INNER JOIN Cliente ON Pedido.idCliente = Cliente.idCliente 
+WHERE Cliente.nomeCliente = 'João Oliveira'; 
+
+
+-- |===========|
+-- |Exercício 5| Mostre todos os pedidos feitos pela cliente 'Isabella Almeida'. 
+-- |===========| 
+SELECT cliente.nomeCliente, Pedido.* 
+FROM Pedido 
+INNER JOIN Cliente ON Pedido.idCliente = Cliente.idCliente 
+WHERE Cliente.nomeCliente = 'Isabella Almeida'; 
+
+-- |===========|
+-- |Exercício 6| Mostre todos os pedidos feitos após '2024-05-05', 
+-- |===========| incluindo os detalhes dos produtos comprados.
+SELECT Pedido.*, Produto.* 
+FROM Pedido 
+INNER JOIN Itens_Pedido ON Pedido.idPedido = Itens_Pedido.idPedido 
+INNER JOIN Produto ON Itens_Pedido.idProduto = Produto.idProduto 
+WHERE Pedido.data_pedido > '2024-05-05';
+
+-- |===========|
+-- |Exercício 7| Mostre todos os produtos comprados pelo cliente 
+-- |===========| 'Maria Costa' que são da categoria 'Calçados'.  
+SELECT Produto.* 
+FROM Produto 
+INNER JOIN Itens_Pedido ON Produto.idProduto = Itens_Pedido.idProduto 
+INNER JOIN Pedido ON Itens_Pedido.idPedido = Pedido.idPedido 
+WHERE Pedido.idCliente = (SELECT idCliente FROM Cliente WHERE nomeCliente = 'Maria Costa') 
+AND Produto.categoria = 'Calçados'; 
+
+-- |===========|
+-- |Exercício 8| Mostre todos os pedidos feitos e os nomes dos 
+-- |===========| clientes em que os pedidos que ainda estão 'Em Processamento'. 
+SELECT Pedido.*, cliente.nomecliente 
+FROM Pedido 
+INNER JOIN Cliente ON Pedido.idCliente = Cliente.idCliente 
+WHERE Pedido.status_pedido = 'Em Processamento'; 
+
+-- |===========|
+-- |Exercício 9| Mostre todos os clientes que fizeram pedidos de
+-- |===========| produtos com preço unitário entre 100 e 200.
+SELECT DISTINCT Cliente.* 
+FROM Cliente 
+INNER JOIN Pedido ON Cliente.idCliente = Pedido.idCliente 
+INNER JOIN Itens_Pedido ON Pedido.idPedido = Itens_Pedido.idPedido 
+INNER JOIN Produto ON Itens_Pedido.idProduto = Produto.idProduto 
+WHERE Produto.preco_unitario BETWEEN 100 AND 200; 
+
+-- |===========|
+-- |Exercício 10| Mostre todos os produtos comprados pelo cliente 
+-- |===========| 'Ricardo Dias' que foram comprados após '2024-05-01'. 
+SELECT Produto.* 
+FROM Produto 
+INNER JOIN Itens_Pedido ON Produto.idProduto = Itens_Pedido.idProduto 
+INNER JOIN Pedido ON Itens_Pedido.idPedido = Pedido.idPedido 
+INNER JOIN Cliente ON Pedido.idCliente = Cliente.idCliente 
+WHERE Cliente.nomeCliente = 'Ricardo Dias' AND Pedido.data_pedido > '2024-05-01'; 
