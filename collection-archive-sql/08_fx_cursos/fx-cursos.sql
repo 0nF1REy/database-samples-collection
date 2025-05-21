@@ -124,9 +124,9 @@ ON m.idAluno = a.idAluno;
 --
 
 SELECT DISTINCT a.nomeAluno /* DISTINCT = Evita repetição */
-FROM aluno a
+FROM aluno a /* TABELA 1 DE ORIGEM */
 INNER JOIN matricula m /* ALIAS = É abreviação/apelido */
-ON m.idAluno = a.idAluno; /* ON = Tem que citar a chave estrangeira */
+ON m.idAluno = a.idAluno; /* ON = LIGAÇÃO ENTRE AS TABELAS, Tem que citar a chave estrangeira */
 
 -- |===========|
 -- |Exercício 5| Qual o nome dos cursos que possuem algum aluno matriculado?
