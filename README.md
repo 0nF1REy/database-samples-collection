@@ -1,159 +1,246 @@
 # SQL Database Projects
 
-Este repositório reúne uma coleção de projetos e exercícios práticos desenvolvidos para aprendizado e prática de SQL e design de bancos de dados relacionais.
+## 📘 Guia Rápido de Comandos SQL
 
----
+Este manual serve como uma referência rápida para os comandos SQL mais comuns, categorizados por sua função principal.
 
-## Conteúdo
+### 1. DDL - Data Definition Language
 
-- **Consultas SQL:** Scripts para operações básicas e avançadas (SELECT, JOIN, GROUP BY, SUBQUERIES, etc.)
-- **Procedures e Triggers:** Exemplos de stored procedures, funções e triggers para automação no banco.
-- **Scripts de criação e popularização:** Scripts para criação das tabelas e inserção de dados para testes.
-
----
-
-## Tecnologias
-
-- SQL padrão ANSI
-- MySQL / MariaDB
-
----
-
-## Manual SQL - Comandos Mais Comuns
-
-Este documento serve como um guia rápido para os comandos SQL mais utilizados, categorizados por sua função principal.
-
-## 1. DDL - Data Definition Language
-
-Comandos para definir e modificar a estrutura do banco de dados.
-
-*   **Criar tabela, banco ou índice:**
-
+*   **Criar banco de dados:**
     ```sql
-    CREATE TABLE tabela (
-        id INT PRIMARY KEY,
-        nome VARCHAR(50)
-    );
-
-    CREATE DATABASE meu_banco;
-
-    CREATE INDEX idx_nome ON tabela(nome);
+    CREATE DATABASE nome_do_banco_de_dados;
     ```
 
-*   **Modificar estrutura da tabela:**
-
+*   **Selecionar um banco de dados para usar:**
     ```sql
-    ALTER TABLE tabela ADD COLUMN idade INT;
+    USE nome_do_banco_de_dados;
+    ```
+
+*   **Criar tabela:**
+    ```sql
+    CREATE TABLE nome_da_tabela (
+        id INT PRIMARY KEY AUTO_INCREMENT,
+        nome VARCHAR(100) NOT NULL,
+        email VARCHAR(100) UNIQUE,
+        data_nascimento DATE,
+        salario DECIMAL(10, 2),
+        data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+    ```
+
+*   **Criar índice:**
+    ```sql
+    CREATE INDEX idx_nome_coluna ON nome_da_tabela(nome_coluna);
+    CREATE UNIQUE INDEX uidx_outra_coluna ON nome_da_tabela(outra_coluna);
+    ```
+
+*   **Modificar estrutura da tabela (ALTER TABLE):**
+    ```sql
+    ALTER TABLE nome_da_tabela ADD COLUMN nova_coluna VARCHAR(50);
+    ```
+    ```sql
+    ALTER TABLE nome_da_tabela MODIFY COLUMN nome VARCHAR(150);
+    ```
+    ```sql
+    ALTER TABLE nome_da_tabela CHANGE COLUMN nome_antigo nome_novo VARCHAR(150);
+    ```
+    ```sql
+    ALTER TABLE nome_da_tabela DROP COLUMN coluna_a_remover;
+    ```
+    ```sql
+    ALTER TABLE nome_da_tabela_filha
+    ADD CONSTRAINT fk_nome_constraint
+    FOREIGN KEY (coluna_fk) REFERENCES nome_da_tabela_pai(coluna_pk);
     ```
 
 *   **Remover tabela, banco ou índice:**
-
     ```sql
-    DROP TABLE tabela;
-    DROP DATABASE meu_banco;
-    DROP INDEX idx_nome ON tabela;
+    DROP TABLE nome_da_tabela;
+    DROP TABLE IF EXISTS nome_da_tabela;
+    ```
+    ```sql
+    DROP DATABASE nome_do_banco_de_dados;
+    DROP DATABASE IF EXISTS nome_do_banco_de_dados;
+    ```
+    ```sql
+    DROP INDEX idx_nome_coluna ON nome_da_tabela;
     ```
 
-## 2. DML - Data Manipulation Language
+### 2. DML - Data Manipulation Language
 
-Comandos para manipular dados (inserir, atualizar, deletar, consultar).
-
-*   **Inserir novos registros:**
-
+*   **Inserir novos registros (INSERT):**
     ```sql
-    INSERT INTO tabela (coluna1, coluna2) VALUES (valor1, valor2);
+    INSERT INTO nome_da_tabela (nome, email, salario)
+    VALUES ('João Silva', 'joao.silva@email.com', 5000.00);
+    ```
+    ```sql
+    INSERT INTO nome_da_tabela (nome, data_nascimento)
+    VALUES ('Maria Santos', '1990-05-15');
+    ```
+    ```sql
+    INSERT INTO nome_da_tabela (nome, email) VALUES
+    ('Carlos Pereira', 'carlos@email.com'),
+    ('Ana Costa', 'ana@email.com');
     ```
 
-*   **Atualizar dados existentes:**
-
+*   **Atualizar dados existentes (UPDATE):**
     ```sql
-    UPDATE tabela SET coluna1 = novo_valor WHERE condicao;
+    UPDATE nome_da_tabela
+    SET email = 'joao.novo.email@email.com', salario = 5500.00
+    WHERE id = 1;
+    ```
+    ```sql
+    UPDATE nome_da_tabela
+    SET salario = salario * 1.10
+    WHERE data_nascimento < '1980-01-01';
     ```
 
-*   **Remover registros:**
-
+*   **Remover registros (DELETE):**
     ```sql
-    DELETE FROM tabela WHERE condicao;
+    DELETE FROM nome_da_tabela WHERE id = 3;
+    ```
+    ```sql
+    DELETE FROM nome_da_tabela WHERE salario < 2000.00;
+    ```
+    ```sql
+    TRUNCATE TABLE nome_da_tabela;
     ```
 
-*   **Consultar dados:**
-
+*   **Consultar dados (SELECT):**
     ```sql
-    SELECT coluna1, coluna2 FROM tabela WHERE condicao ORDER BY coluna1;
+    SELECT * FROM nome_da_tabela;
+    ```
+    ```sql
+    SELECT nome, email FROM nome_da_tabela;
+    ```
+    ```sql
+    SELECT id, nome, salario FROM nome_da_tabela WHERE salario > 3000.00;
+    ```
+    ```sql
+    SELECT nome, data_nascimento FROM nome_da_tabela ORDER BY data_nascimento DESC;
+    ```
+    ```sql
+    SELECT * FROM nome_da_tabela LIMIT 10;
+    ```
+    ```sql
+    SELECT * FROM nome_da_tabela ORDER BY id LIMIT 5 OFFSET 10;
+    ```
+    ```sql
+    SELECT departamento, COUNT(*) AS total_funcionarios, AVG(salario) AS media_salarial
+    FROM funcionarios
+    GROUP BY departamento;
+    ```
+    ```sql
+    SELECT pedidos.id_pedido, clientes.nome_cliente
+    FROM pedidos
+    INNER JOIN clientes ON pedidos.id_cliente = clientes.id;
     ```
 
-## 3. DTL/TCL - Data Transaction Language / Transaction Control Language
-
-Comandos para controle de transações.
+### 3. TCL - Transaction Control Language
 
 *   **Iniciar transação:**
-
     ```sql
     START TRANSACTION;
     ```
+    ```sql
+    BEGIN;
+    ```
 
 *   **Definir ponto intermediário (savepoint):**
-
     ```sql
-    SAVEPOINT nome_savepoint;
+    SAVEPOINT nome_do_savepoint;
     ```
 
 *   **Desfazer até o savepoint:**
-
     ```sql
-    ROLLBACK TO nome_savepoint;
+    ROLLBACK TO nome_do_savepoint;
     ```
 
 *   **Desfazer toda a transação:**
-
     ```sql
     ROLLBACK;
     ```
 
 *   **Confirmar alterações feitas na transação:**
-
     ```sql
     COMMIT;
     ```
 
-## 4. DCL - Data Control Language
+### 4. DCL - Data Control Language
 
-Comandos para controle de acesso e permissões.
-
-*   **Conceder permissões:**
-
+*   **Criar usuário:**
     ```sql
-    GRANT SELECT, INSERT ON tabela TO usuario;
+    CREATE USER 'novo_usuario'@'localhost' IDENTIFIED BY 'senha_segura';
+    ```
+    ```sql
+    CREATE USER 'novo_usuario'@'%' IDENTIFIED BY 'senha_segura';
     ```
 
-*   **Revogar permissões:**
-
+*   **Conceder permissões (GRANT):**
     ```sql
-    REVOKE INSERT ON tabela FROM usuario;
+    GRANT SELECT, INSERT ON nome_do_banco_de_dados.nome_da_tabela TO 'novo_usuario'@'localhost';
+    ```
+    ```sql
+    GRANT ALL PRIVILEGES ON nome_do_banco_de_dados.* TO 'novo_usuario'@'localhost';
+    ```
+    ```sql
+    GRANT SELECT ON nome_da_tabela TO 'novo_usuario'@'localhost' WITH GRANT OPTION;
+    ```
+    ```sql
+    FLUSH PRIVILEGES;
     ```
 
-## 5. Outros comandos úteis
+*   **Revogar permissões (REVOKE):**
+    ```sql
+    REVOKE INSERT ON nome_do_banco_de_dados.nome_da_tabela FROM 'novo_usuario'@'localhost';
+    ```
+    ```sql
+    REVOKE ALL PRIVILEGES ON nome_do_banco_de_dados.* FROM 'novo_usuario'@'localhost';
+    ```
+
+*   **Remover usuário:**
+    ```sql
+    DROP USER 'novo_usuario'@'localhost';
+    ```
+    ```sql
+    DROP USER IF EXISTS 'outro_usuario'@'%';
+    ```
+
+### 5. Outros Comandos Úteis
 
 *   **Mostrar estrutura da tabela:**
-
     ```sql
-    DESCRIBE tabela;
+    DESCRIBE nome_da_tabela;
+    ```
+    ```sql
+    SHOW COLUMNS FROM nome_da_tabela;
+    ```
+    ```sql
+    SHOW CREATE TABLE nome_da_tabela;
     ```
 
 *   **Mostrar bancos de dados disponíveis:**
-
     ```sql
     SHOW DATABASES;
     ```
 
-*   **Mostrar tabelas do banco atual:**
-
+*   **Mostrar tabelas do banco de dados atual:**
     ```sql
     SHOW TABLES;
     ```
 
-*   **Obter informações sobre usuários e permissões (depende do SGBD):**
-
+*   **Mostrar status do servidor:**
     ```sql
-    SHOW GRANTS FOR usuario;
+    SHOW STATUS;
+    ```
+    ```sql
+    SHOW VARIABLES LIKE 'char%';
+    ```
+
+*   **Obter informações sobre usuários e suas permissões:**
+    ```sql
+    SHOW GRANTS FOR 'nome_usuario'@'host_de_acesso';
+    ```
+    ```sql
+    SELECT user, host FROM mysql.user;
     ```
