@@ -1,4 +1,4 @@
-# SQL Database Projects
+# Database Samples Collection
 
 ## 📘 Guia Rápido de Comandos SQL
 
