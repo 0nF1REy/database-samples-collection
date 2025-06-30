@@ -1,0 +1,23 @@
+# Ignorar arquivos de sistema e editor
+*.swp
+*.swo
+*.bak
+*.tmp
+*.log
+*.DS_Store
+*.env
+.env.sh
+
+# Diretórios comuns a ignorar
+.git
+.gitignore
+.vscode
+.idea
+node_modules
+__pycache__
+
+# Ignorar dados de exemplo, se não usados no build
+cypher/
+sql/
+LICENSE
+README.md
